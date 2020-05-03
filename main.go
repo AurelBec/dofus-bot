@@ -15,9 +15,11 @@ import (
 	"github.com/sirupsen/logrus"
 
 	"dofus-bot/models"
+	"dofus-bot/session"
 )
 
 var resources map[string]models.Resource
+var sessionModified bool
 var mutex sync.Mutex
 
 var opts struct {
@@ -42,7 +44,7 @@ func main() {
 		logrus.Warn("Running in inverted mode")
 	}
 
-	resources = make(map[string]models.Resource)
+	resources = session.Select()
 
 	wg := new(sync.WaitGroup)
 	ctx, cancel := context.WithCancel(context.Background())
@@ -56,6 +58,12 @@ func main() {
 	go resourceSupervision(ctx, wg)
 
 	wg.Wait()
+
+	// save session
+	if sessionModified {
+		session.Save(resources)
+	}
+
 	logrus.Info("see you soon!")
 }
 
@@ -94,6 +102,8 @@ func listenResourceRegistration(cancel context.CancelFunc, wg *sync.WaitGroup) {
 func addResource() models.Resource {
 	mutex.Lock()
 	defer mutex.Unlock()
+
+	sessionModified = true
 
 	addedResource := models.NewResourceUnderMouse(opts.Invert)
 	resources[addedResource.ID] = addedResource

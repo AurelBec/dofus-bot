@@ -11,12 +11,13 @@ import (
 )
 
 type Resource struct {
-	ID   string
-	x, y int
+	ID string `json:"id"`
+	X  int    `json:"x"`
+	Y  int    `json:"y"`
 
-	invert    bool
-	gray      float64
-	lightness float64
+	Invert    bool    `json:"inversionFlag"`
+	Gray      float64 `json:"gray"`
+	Lightness float64 `json:"lightness"`
 }
 
 func NewResourceUnderMouse(invert bool) Resource {
@@ -38,26 +39,26 @@ func NewResource(x, y int, invert bool) Resource {
 
 	return Resource{
 		ID:        id,
-		x:         x,
-		y:         y,
-		invert:    invert,
-		gray:      gray,
-		lightness: lightness,
+		X:         x,
+		Y:         y,
+		Invert:    invert,
+		Gray:      gray,
+		Lightness: lightness,
 	}
 }
 
 func (r Resource) SquareDistanceTo(other Resource) float64 {
-	return float64((r.x-other.x)*(r.x-other.x) + (r.y-other.y)*(r.y-other.y))
+	return float64((r.X-other.X)*(r.X-other.X) + (r.Y-other.Y)*(r.Y-other.Y))
 }
 
 func (r Resource) IsActive() bool {
-	color := getPixelColor(r.x, r.y)
+	color := getPixelColor(r.X, r.Y)
 
 	limit := 10.
-	grayOk := math.Abs(color.toGray()-r.gray) < limit
-	lightnessOk := math.Abs(color.toLightness()-r.lightness) < limit
+	grayOk := math.Abs(color.toGray()-r.Gray) < limit
+	lightnessOk := math.Abs(color.toLightness()-r.Lightness) < limit
 
-	return (grayOk && lightnessOk) != r.invert
+	return (grayOk && lightnessOk) != r.Invert
 }
 
 func (r Resource) Collect(react bool) {
@@ -68,7 +69,7 @@ func (r Resource) Collect(react bool) {
 
 	robotgo.KeyToggle("lshift", "down")
 	time.Sleep(time.Millisecond * 20)
-	robotgo.MoveClick(r.x, r.y, "left", true)
+	robotgo.MoveClick(r.X, r.Y, "left", true)
 	time.Sleep(time.Millisecond * 20)
 	robotgo.KeyToggle("lshift", "up")
 	time.Sleep(time.Millisecond * 20)
