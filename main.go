@@ -61,6 +61,8 @@ func listenResourceRegistration(cancel context.CancelFunc, wg *sync.WaitGroup) {
 	defer cancel()
 	defer wg.Done()
 
+	// var lastResourceAdded models.Resource
+
 	for ev := range s {
 		switch ev.Kind {
 		case hook.KeyUp:
@@ -71,7 +73,12 @@ func listenResourceRegistration(cancel context.CancelFunc, wg *sync.WaitGroup) {
 
 			// +
 			case 61, 65323:
+				// lastResourceAdded = addResource()
 				addResource()
+
+			// z, - (cancel last add)
+			// case 122, 45:
+			// removeResource(lastResourceAdded.ID)
 
 			default:
 				logrus.Debugf("event: %s", strings.SplitAfter(ev.String(), "Event: ")[1])
@@ -87,6 +94,16 @@ func addResource() models.Resource {
 	addedResource := models.NewResourceUnderMouse(opts.Invert)
 	resources[addedResource.ID] = addedResource
 	return addedResource
+}
+
+func removeResource(lastResourceAddedID string) {
+	mutex.Lock()
+	defer mutex.Unlock()
+
+	if lastResourceAddedID != "" {
+		logrus.Warnf("[%s] removed", lastResourceAddedID)
+		delete(resources, lastResourceAddedID)
+	}
 }
 
 func resourceSupervision(ctx context.Context, wg *sync.WaitGroup) {
