@@ -3,6 +3,7 @@ package models
 import (
 	"fmt"
 	"math"
+	"math/rand"
 	"time"
 
 	"github.com/go-vgo/robotgo"
@@ -59,7 +60,12 @@ func (r Resource) IsActive() bool {
 	return (grayOk && lightnessOk) != r.invert
 }
 
-func (r Resource) Collect() {
+func (r Resource) Collect(react bool) {
+	// simulate reaction time
+	if react {
+		time.Sleep(time.Millisecond * time.Duration(rand.Intn(300)+300))
+	}
+
 	robotgo.KeyToggle("lshift", "down")
 	time.Sleep(time.Millisecond * 20)
 	robotgo.MoveClick(r.x, r.y, "left", true)

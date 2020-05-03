@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"math"
+	"math/rand"
 	"os"
 	"strings"
 	"sync"
@@ -22,9 +23,12 @@ var mutex sync.Mutex
 var opts struct {
 	Debug  bool `short:"d" long:"debug" description:"Run in debug mode"`
 	Invert bool `short:"i" long:"invert" description:"Invert resource selection"`
+	React  bool `short:"r" long:"react" description:"Simulate short reaction time"`
 }
 
 func main() {
+	rand.Seed(time.Now().UnixNano())
+
 	if _, err := flags.Parse(&opts); err != nil {
 		os.Exit(1)
 	}
@@ -131,7 +135,7 @@ func resourceSupervision(ctx context.Context, wg *sync.WaitGroup) {
 			if !collecting {
 				if nextResource, collecting = nearestRessource(nextResource); collecting {
 					logrus.Infof("collecting [%s]...", nextResource.ID)
-					nextResource.Collect()
+					nextResource.Collect(opts.React)
 				}
 			}
 
