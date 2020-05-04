@@ -5,6 +5,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"sort"
+	"strconv"
+	"strings"
 
 	"github.com/sirupsen/logrus"
 
@@ -15,9 +18,9 @@ const sessionFile string = "sessions.json"
 
 var loaded bool
 var sessions map[string][]models.Resource
-var selectedSession string
+var selectedSessions []string
 
-func Load() bool {
+func readSessions() bool {
 	sessions = make(map[string][]models.Resource)
 
 	jsonFile, err := os.Open(sessionFile)
@@ -46,49 +49,70 @@ func Load() bool {
 func Select() map[string]models.Resource {
 	resources := make(map[string]models.Resource)
 
-	if !loaded && !Load() {
+	if !loaded && !readSessions() {
 		return resources
 	}
 
 	if len(sessions) > 0 {
 		logrus.Info("Saved sessions are:")
+
+		sessionNames := make(sort.StringSlice, 0)
+		for name := range sessions {
+			sessionNames = append(sessionNames, name)
+		}
+		sort.Sort(sessionNames)
+
 		idxToSession := []string{}
-		for id, session := range sessions {
-			fmt.Printf("%3d- %s (%d)\n", len(idxToSession)+1, id, len(session))
-			idxToSession = append(idxToSession, id)
+		for n, name := range sessionNames {
+			fmt.Printf("%3d- %s (%d)\n", n+1, name, len(sessions[name]))
+			idxToSession = append(idxToSession, name)
 		}
 
-		fmt.Print("Which session load (Type 0 or left empty to quit):\n> ")
-		idx := 0
-		fmt.Scanf("%d", &idx)
-		if idx > 0 && idx <= len(sessions) {
-			selectedSession = idxToSession[idx-1]
-			logrus.Infof("loading session [%s]", selectedSession)
-			for _, resource := range sessions[selectedSession] {
-				resources[resource.ID] = resource
+		fmt.Print("Session(s) to load, separated with comma (Left empty to quit):\n> ")
+		buffer := ""
+		fmt.Scanf("%s", &buffer)
+
+		for _, choice := range strings.Split(buffer, ",") {
+			if idx, _ := strconv.Atoi(choice); idx > 0 && idx <= len(sessions) {
+				session := idxToSession[idx-1]
+				selectedSessions = append(selectedSessions, session)
+				logrus.Infof("loading session [%s]", session)
+				for _, resource := range sessions[session] {
+					resources[resource.ID] = resource
+				}
 			}
 		}
 	}
 
 	if len(resources) < 1 {
 		logrus.Info("no session loaded")
+	} else if len(selectedSessions) > 1 {
+		logrus.Warnf("more than 1 session (%d) loaded, no save available", len(selectedSessions))
 	}
 
 	return resources
 }
 
 func Save(resources map[string]models.Resource) {
-	if !loaded && !Load() {
+	if !loaded && !readSessions() {
 		return
 	}
 
-	// get session name if missing
-	if selectedSession == "" {
+	// get session name
+	selectedSession := ""
+	switch len(selectedSessions) {
+	case 0:
 		fmt.Print("Save current session (Type new name or left empty to quit):\n> ")
 		fmt.Scanln(&selectedSession)
-		if selectedSession == "" {
-			return
-		}
+	case 1:
+		selectedSession = selectedSessions[0]
+	default:
+		logrus.Info("impossible to save multi-sessions")
+		return
+	}
+
+	if selectedSession == "" {
+		return
 	}
 
 	// ask for override
