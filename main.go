@@ -131,6 +131,8 @@ func resourceSupervision(ctx context.Context, wg *sync.WaitGroup) {
 	for {
 		select {
 		case <-ticker.C:
+			justFinish := false
+
 			if _, exists := resources[nextResource.ID]; !exists && nextResource.ID != "" && collecting {
 				logrus.Infof("stop collecting [%s]", nextResource.ID)
 				collecting = false
@@ -139,13 +141,14 @@ func resourceSupervision(ctx context.Context, wg *sync.WaitGroup) {
 			if collecting {
 				if collecting = nextResource.IsActive(); !collecting {
 					logrus.Infof("[%s] collected", nextResource.ID)
+					justFinish = true
 				}
 			}
 
 			if !collecting {
 				if nextResource, collecting = nearestRessource(nextResource); collecting {
 					logrus.Infof("collecting [%s]...", nextResource.ID)
-					nextResource.Collect(opts.React)
+					go nextResource.Collect(opts.React && !justFinish)
 				}
 			}
 

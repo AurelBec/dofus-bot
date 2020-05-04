@@ -64,7 +64,7 @@ func (r Resource) IsActive() bool {
 func (r Resource) Collect(react bool) {
 	// simulate reaction time
 	if react {
-		time.Sleep(time.Millisecond * time.Duration(rand.Intn(300)+300))
+		time.Sleep(time.Millisecond * time.Duration(rand.Intn(800)+500))
 	}
 
 	robotgo.KeyToggle("lshift", "down")
