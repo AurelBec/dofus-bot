@@ -163,8 +163,8 @@ func nearestRessource(previousResource models.Resource) (models.Resource, bool) 
 	defer mutex.Unlock()
 
 	var nextClosestResource models.Resource
+	var bestDistance int = math.MaxInt64
 
-	bestDistance := math.Inf(0)
 	for _, resource := range resources {
 		// ignore inactive resources
 		if !resource.IsActive() {
@@ -177,7 +177,7 @@ func nearestRessource(previousResource models.Resource) (models.Resource, bool) 
 		}
 
 		// else, we compare distance to get the closest
-		if dist := previousResource.SquareDistanceTo(resource); dist < bestDistance {
+		if dist := previousResource.DistanceTo(resource); dist <= bestDistance {
 			nextClosestResource = resource
 			bestDistance = dist
 		}

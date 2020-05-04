@@ -47,8 +47,10 @@ func NewResource(x, y int, invert bool) Resource {
 	}
 }
 
-func (r Resource) SquareDistanceTo(other Resource) float64 {
-	return float64((r.X-other.X)*(r.X-other.X) + (r.Y-other.Y)*(r.Y-other.Y))
+func (lhs Resource) DistanceTo(rhs Resource) int {
+	dx := float64(lhs.X - rhs.X)
+	dy := float64(lhs.Y - rhs.Y)
+	return int(math.Sqrt(dx*dx + dy*dy))
 }
 
 func (r Resource) IsActive() bool {
