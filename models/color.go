@@ -8,8 +8,7 @@ import (
 )
 
 type colorData struct {
-	str string
-	rgb []float64
+	color.RGB
 }
 
 func getPixelColor(x, y int) colorData {
@@ -17,19 +16,18 @@ func getPixelColor(x, y int) colorData {
 	rgb, _ := hex.DecodeString(str)
 
 	return colorData{
-		str: str,
-		rgb: []float64{float64(rgb[0]), float64(rgb[1]), float64(rgb[2])},
+		color.RGB{
+			R: float64(rgb[0]) / 255,
+			G: float64(rgb[1]) / 255,
+			B: float64(rgb[2]) / 255,
+		},
 	}
 }
 
 func (c colorData) toGray() float64 {
-	return (c.rgb[0] + c.rgb[1] + c.rgb[2]) / 3.0
+	return (c.R + c.G + c.B) * 255. / 3.
 }
 
 func (c colorData) toLightness() float64 {
-	return color.RGB{
-		R: c.rgb[0] / 255.,
-		G: c.rgb[1] / 255.,
-		B: c.rgb[2] / 255.,
-	}.ToHSL().L * 100.
+	return c.ToHSL().L * 100.
 }

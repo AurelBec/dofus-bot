@@ -14,14 +14,23 @@ import (
 	"dofus-bot/models"
 )
 
-const sessionFile string = "sessions.json"
+type session struct {
+	RestPos   *models.Pos       `json:"restPosition,omitempty"`
+	Resources []models.Resource `json:"resources"`
+}
 
-var loaded bool
-var sessions map[string][]models.Resource
-var selectedSessions []string
+const (
+	sessionFile string = "sessions.json"
+)
+
+var (
+	loaded           bool
+	sessions         map[string]session
+	selectedSessions []string
+)
 
 func readSessions() bool {
-	sessions = make(map[string][]models.Resource)
+	sessions = make(map[string]session)
 
 	jsonFile, err := os.Open(sessionFile)
 	if err != nil {
@@ -46,11 +55,12 @@ func readSessions() bool {
 	return true
 }
 
-func Select() map[string]models.Resource {
-	resources := make(map[string]models.Resource)
+func Select() ([]models.Resource, models.Pos) {
+	resources := make([]models.Resource, 0)
+	restPos := models.Pos{}
 
 	if !loaded && !readSessions() {
-		return resources
+		return resources, restPos
 	}
 
 	if len(sessions) > 0 {
@@ -64,7 +74,7 @@ func Select() map[string]models.Resource {
 
 		idxToSession := []string{}
 		for n, name := range sessionNames {
-			fmt.Printf("%3d- %s (%d)\n", n+1, name, len(sessions[name]))
+			fmt.Printf("%3d- %s (%d)\n", n+1, name, len(sessions[name].Resources))
 			idxToSession = append(idxToSession, name)
 		}
 
@@ -75,11 +85,9 @@ func Select() map[string]models.Resource {
 		for _, choice := range strings.Split(buffer, ",") {
 			if idx, _ := strconv.Atoi(choice); idx > 0 && idx <= len(sessions) {
 				session := idxToSession[idx-1]
-				selectedSessions = append(selectedSessions, session)
 				logrus.Infof("loading session [%s]", session)
-				for _, resource := range sessions[session] {
-					resources[resource.ID] = resource
-				}
+				selectedSessions = append(selectedSessions, session)
+				resources = append(resources, sessions[session].Resources...)
 			}
 		}
 	}
@@ -88,12 +96,14 @@ func Select() map[string]models.Resource {
 		logrus.Info("no session loaded")
 	} else if len(selectedSessions) > 1 {
 		logrus.Warnf("more than 1 session (%d) loaded, no save available", len(selectedSessions))
+	} else if pos := sessions[selectedSessions[0]].RestPos; pos != nil {
+		restPos = *pos
 	}
 
-	return resources
+	return resources, restPos
 }
 
-func Save(resources map[string]models.Resource) {
+func Save(restPosition *models.Pos, resources []models.Resource) {
 	if !loaded && !readSessions() {
 		return
 	}
@@ -129,9 +139,9 @@ func Save(resources map[string]models.Resource) {
 	}
 
 	// update ressources
-	sessions[selectedSession] = []models.Resource{}
-	for _, resource := range resources {
-		sessions[selectedSession] = append(sessions[selectedSession], resource)
+	sessions[selectedSession] = session{
+		RestPos:   restPosition,
+		Resources: resources,
 	}
 
 	// saved into file

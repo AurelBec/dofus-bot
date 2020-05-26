@@ -18,15 +18,19 @@ import (
 	"dofus-bot/session"
 )
 
-var resources map[string]models.Resource
-var sessionModified bool
-var mutex sync.Mutex
+var (
+	restPosition    models.Pos
+	resources       []models.Resource
+	sessionModified bool
+	mutex           sync.Mutex
 
-var opts struct {
-	Debug  bool `short:"d" long:"debug" description:"Run in debug mode"`
-	Invert bool `short:"i" long:"invert" description:"Invert resource selection"`
-	React  bool `short:"r" long:"react" description:"Simulate short reaction time"`
-}
+	opts struct {
+		Debug  bool `short:"d" long:"debug" description:"Run in debug mode"`
+		Invert bool `short:"i" long:"invert" description:"Invert resource selection"`
+		Wait   bool `short:"w" long:"wait" description:"Simulate short reaction time"`
+		NoRest bool `short:"r" long:"no-rest" description:"Disable rest"`
+	}
+)
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
@@ -44,7 +48,12 @@ func main() {
 		logrus.Warn("Running in inverted mode")
 	}
 
-	resources = session.Select()
+	resources, restPosition = session.Select()
+
+	// disable rest position if asked
+	if opts.NoRest {
+		restPosition = models.Pos{}
+	}
 
 	wg := new(sync.WaitGroup)
 	ctx, cancel := context.WithCancel(context.Background())
@@ -61,7 +70,7 @@ func main() {
 
 	// save session
 	if sessionModified {
-		session.Save(resources)
+		session.Save(&restPosition, resources)
 	}
 
 	logrus.Info("see you soon!")
@@ -73,8 +82,6 @@ func listenResourceRegistration(cancel context.CancelFunc, wg *sync.WaitGroup) {
 	defer cancel()
 	defer wg.Done()
 
-	// var lastResourceAdded models.Resource
-
 	for ev := range s {
 		switch ev.Kind {
 		case hook.KeyUp:
@@ -85,39 +92,40 @@ func listenResourceRegistration(cancel context.CancelFunc, wg *sync.WaitGroup) {
 
 			// +
 			case 61, 65323:
-				// lastResourceAdded = addResource()
 				addResource()
-
-			// z, - (cancel last add)
-			// case 122, 45:
-			// removeResource(lastResourceAdded.ID)
 
 			default:
 				logrus.Debugf("event: %s", strings.SplitAfter(ev.String(), "Event: ")[1])
 			}
+		case hook.MouseUp:
+			switch ev.Button {
+			case 2:
+				addRestPosition()
+			}
 		}
+
 	}
 }
 
-func addResource() models.Resource {
+func addRestPosition() {
+	mutex.Lock()
+	defer mutex.Unlock()
+
+	if !opts.NoRest {
+		sessionModified = true
+	}
+
+	x, y := robotgo.GetMousePos()
+	restPosition = models.Pos{X: x, Y: y}
+	logrus.Infof("set rest position at [%vx%v]", x, y)
+}
+
+func addResource() {
 	mutex.Lock()
 	defer mutex.Unlock()
 
 	sessionModified = true
-
-	addedResource := models.NewResourceUnderMouse(opts.Invert)
-	resources[addedResource.ID] = addedResource
-	return addedResource
-}
-
-func removeResource(lastResourceAddedID string) {
-	mutex.Lock()
-	defer mutex.Unlock()
-
-	if lastResourceAddedID != "" {
-		logrus.Warnf("[%s] removed", lastResourceAddedID)
-		delete(resources, lastResourceAddedID)
-	}
+	resources = append(resources, models.NewResourceUnderMouse(opts.Invert))
 }
 
 func resourceSupervision(ctx context.Context, wg *sync.WaitGroup) {
@@ -126,6 +134,7 @@ func resourceSupervision(ctx context.Context, wg *sync.WaitGroup) {
 	defer wg.Done()
 
 	var collecting bool
+	var resting bool
 	var nextResource models.Resource
 
 	for {
@@ -133,22 +142,28 @@ func resourceSupervision(ctx context.Context, wg *sync.WaitGroup) {
 		case <-ticker.C:
 			justFinish := false
 
-			if _, exists := resources[nextResource.ID]; !exists && nextResource.ID != "" && collecting {
-				logrus.Infof("stop collecting [%s]", nextResource.ID)
-				collecting = false
-			}
-
 			if collecting {
 				if collecting = nextResource.IsActive(); !collecting {
-					logrus.Infof("[%s] collected", nextResource.ID)
+					logrus.Infof("[%s] collected", nextResource)
 					justFinish = true
 				}
 			}
 
 			if !collecting {
-				if nextResource, collecting = nearestRessource(nextResource); collecting {
-					logrus.Infof("collecting [%s]...", nextResource.ID)
-					go nextResource.Collect(opts.React && !justFinish)
+				var lastPos models.Pos
+				if !justFinish && !restPosition.IsNull() {
+					lastPos = restPosition
+				} else {
+					lastPos = nextResource.Pos
+				}
+
+				if nextResource, collecting = nearestRessource(lastPos); collecting {
+					logrus.Infof("collecting [%s]...", nextResource)
+					resting = false
+					go nextResource.Collect(opts.Wait && !justFinish)
+				} else if !resting && !restPosition.IsNull() {
+					resting = true
+					goRest()
 				}
 			}
 
@@ -158,7 +173,14 @@ func resourceSupervision(ctx context.Context, wg *sync.WaitGroup) {
 	}
 }
 
-func nearestRessource(previousResource models.Resource) (models.Resource, bool) {
+func goRest() {
+	logrus.Info("going to rest position")
+	robotgo.MoveClick(restPosition.X, restPosition.Y, "left")
+	time.Sleep(time.Millisecond * 20)
+	robotgo.MoveMouse(400, 0)
+}
+
+func nearestRessource(lastPos models.Pos) (models.Resource, bool) {
 	mutex.Lock()
 	defer mutex.Unlock()
 
@@ -172,12 +194,12 @@ func nearestRessource(previousResource models.Resource) (models.Resource, bool) 
 		}
 
 		// if last resource is empty, then when cant do comparisons and return the first active resource
-		if previousResource.ID == "" {
+		if lastPos.IsNull() {
 			return resource, true
 		}
 
 		// else, we compare distance to get the closest
-		if dist := previousResource.DistanceTo(resource); dist <= bestDistance {
+		if dist := lastPos.DistanceTo(resource.Pos); dist <= bestDistance {
 			nextClosestResource = resource
 			bestDistance = dist
 		}
