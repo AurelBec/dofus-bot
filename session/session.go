@@ -9,14 +9,15 @@ import (
 	"strconv"
 	"strings"
 
+	color "github.com/lucasb-eyer/go-colorful"
 	"github.com/sirupsen/logrus"
 
 	"dofus-bot/models"
 )
 
 type session struct {
-	RestPos   *models.Pos       `json:"restPosition,omitempty"`
-	Resources []models.Resource `json:"resources"`
+	RestPos   *models.Pos        `json:"restPosition,omitempty"`
+	Resources []*models.Resource `json:"resources"`
 }
 
 const (
@@ -55,8 +56,8 @@ func readSessions() bool {
 	return true
 }
 
-func Select() ([]models.Resource, models.Pos) {
-	resources := make([]models.Resource, 0)
+func Select() ([]*models.Resource, models.Pos) {
+	resources := make([]*models.Resource, 0)
 	restPos := models.Pos{}
 
 	if !loaded && !readSessions() {
@@ -74,7 +75,20 @@ func Select() ([]models.Resource, models.Pos) {
 
 		idxToSession := []string{}
 		for n, name := range sessionNames {
-			fmt.Printf("%3d- %s (%d)\n", n+1, name, len(sessions[name].Resources))
+			// old compatibility
+			resources := sessions[name].Resources
+			convertion := 0
+			for _, resource := range resources {
+				if !resource.Color.AlmostEqualRgb(color.Color{}) {
+					convertion++
+				}
+			}
+
+			if convertion != len(resources) {
+				fmt.Printf("%3d- %s (%d) (%d%% converted)\n", n+1, name, len(resources), convertion*100/len(resources))
+			} else {
+				fmt.Printf("%3d- %s (%d)\n", n+1, name, len(resources))
+			}
 			idxToSession = append(idxToSession, name)
 		}
 
@@ -103,42 +117,52 @@ func Select() ([]models.Resource, models.Pos) {
 	return resources, restPos
 }
 
-func Save(restPosition *models.Pos, resources []models.Resource) {
-	if !loaded && !readSessions() {
+func Save(restPosition *models.Pos, resources []*models.Resource) {
+	if (!loaded && !readSessions()) || len(resources) == 0 {
 		return
 	}
 
-	// get session name
+	hasNew := false
+	hasColorUpdate := false
 	selectedSession := ""
+
 	switch len(selectedSessions) {
 	case 0:
 		fmt.Print("Save current session (Type new name or left empty to quit):\n> ")
 		fmt.Scanln(&selectedSession)
+		hasNew = true
 	case 1:
 		selectedSession = selectedSessions[0]
+
+		for _, resource := range resources {
+			if resource.IsNew() {
+				hasNew = true
+			}
+			if resource.ColorUpdated() {
+				hasColorUpdate = true
+			}
+		}
+
+		if hasNew {
+			fmt.Printf("Override session [%s] (Type Yy(es) to confirm):\n> ", selectedSession)
+			answer := ""
+			fmt.Scanln(&answer)
+			switch answer {
+			case "Y", "Yes", "y", "yes":
+				// continue
+			default:
+				resources = sessions[selectedSession].Resources // replace new resources by old ones
+			}
+		}
 	default:
 		logrus.Info("impossible to save multi-sessions")
 		return
 	}
 
-	if selectedSession == "" {
+	if selectedSession == "" || (!hasNew && !hasColorUpdate) {
 		return
 	}
 
-	// ask for override
-	if _, exists := sessions[selectedSession]; exists {
-		fmt.Printf("Override session [%s] (Type Yy(es) to confirm):\n> ", selectedSession)
-		answer := ""
-		fmt.Scanln(&answer)
-		switch answer {
-		case "Y", "Yes", "y", "yes":
-			// continue
-		default:
-			return
-		}
-	}
-
-	// update ressources
 	sessions[selectedSession] = session{
 		RestPos:   restPosition,
 		Resources: resources,
@@ -157,5 +181,9 @@ func Save(restPosition *models.Pos, resources []models.Resource) {
 		return
 	}
 
-	logrus.Infof("session [%s] saved!", selectedSession)
+	if hasColorUpdate {
+		logrus.Infof("session [%s] colors updated!", selectedSession)
+	} else {
+		logrus.Infof("session [%s] saved!", selectedSession)
+	}
 }

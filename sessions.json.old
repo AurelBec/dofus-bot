@@ -1,0 +1,1016 @@
+{
+    "manga_tmp": {
+        "restPosition": {
+            "x": 0,
+            "Y": 0
+        },
+        "resources": [
+            {
+                "id": "1015x233",
+                "position": {
+                    "x": 1015,
+                    "Y": 233
+                },
+                "inversionFlag": false,
+                "gray": 211.33333333333334,
+                "lightness": 82.94117647058823
+            },
+            {
+                "id": "960x259",
+                "position": {
+                    "x": 960,
+                    "Y": 259
+                },
+                "inversionFlag": false,
+                "gray": 201.66666666666666,
+                "lightness": 78.62745098039215
+            },
+            {
+                "id": "660x412",
+                "position": {
+                    "x": 660,
+                    "Y": 412
+                },
+                "inversionFlag": false,
+                "gray": 208,
+                "lightness": 81.17647058823529
+            },
+            {
+                "id": "1320x286",
+                "position": {
+                    "x": 1320,
+                    "Y": 286
+                },
+                "inversionFlag": false,
+                "gray": 153.66666666666666,
+                "lightness": 60.392156862745104
+            },
+            {
+                "id": "1265x261",
+                "position": {
+                    "x": 1265,
+                    "Y": 261
+                },
+                "inversionFlag": false,
+                "gray": 202.33333333333334,
+                "lightness": 78.82352941176471
+            }
+        ]
+    },
+    "sadida_cuivre": {
+        "restPosition": {
+            "x": 992,
+            "Y": 351
+        },
+        "resources": [
+            {
+                "id": "661x362",
+                "position": {
+                    "x": 661,
+                    "Y": 362
+                },
+                "inversionFlag": false,
+                "gray": 160.33333333333334,
+                "lightness": 63.92156862745099
+            },
+            {
+                "id": "960x207",
+                "position": {
+                    "x": 960,
+                    "Y": 207
+                },
+                "inversionFlag": false,
+                "gray": 155,
+                "lightness": 62.35294117647059
+            },
+            {
+                "id": "858x260",
+                "position": {
+                    "x": 858,
+                    "Y": 260
+                },
+                "inversionFlag": false,
+                "gray": 142.66666666666666,
+                "lightness": 57.05882352941176
+            },
+            {
+                "id": "609x387",
+                "position": {
+                    "x": 609,
+                    "Y": 387
+                },
+                "inversionFlag": false,
+                "gray": 156.66666666666666,
+                "lightness": 62.745098039215684
+            },
+            {
+                "id": "557x413",
+                "position": {
+                    "x": 557,
+                    "Y": 413
+                },
+                "inversionFlag": false,
+                "gray": 149,
+                "lightness": 59.6078431372549
+            },
+            {
+                "id": "1113x234",
+                "position": {
+                    "x": 1113,
+                    "Y": 234
+                },
+                "inversionFlag": false,
+                "gray": 149,
+                "lightness": 59.6078431372549
+            },
+            {
+                "id": "1366x361",
+                "position": {
+                    "x": 1366,
+                    "Y": 361
+                },
+                "inversionFlag": false,
+                "gray": 172,
+                "lightness": 67.84313725490196
+            },
+            {
+                "id": "1417x389",
+                "position": {
+                    "x": 1417,
+                    "Y": 389
+                },
+                "inversionFlag": false,
+                "gray": 142.33333333333334,
+                "lightness": 57.25490196078431
+            },
+            {
+                "id": "1063x209",
+                "position": {
+                    "x": 1063,
+                    "Y": 209
+                },
+                "inversionFlag": false,
+                "gray": 145.33333333333334,
+                "lightness": 58.23529411764705
+            },
+            {
+                "id": "1114x231",
+                "position": {
+                    "x": 1114,
+                    "Y": 231
+                },
+                "inversionFlag": false,
+                "gray": 176.33333333333334,
+                "lightness": 69.41176470588235
+            },
+            {
+                "id": "910x232",
+                "position": {
+                    "x": 910,
+                    "Y": 232
+                },
+                "inversionFlag": false,
+                "gray": 169.33333333333334,
+                "lightness": 67.05882352941175
+            },
+            {
+                "id": "1060x208",
+                "position": {
+                    "x": 1060,
+                    "Y": 208
+                },
+                "inversionFlag": false,
+                "gray": 151.33333333333334,
+                "lightness": 60.3921568627451
+            }
+        ]
+    },
+    "sadida_kobalte": {
+        "restPosition": {
+            "x": 1074,
+            "Y": 485
+        },
+        "resources": [
+            {
+                "id": "1074x232",
+                "position": {
+                    "x": 1074,
+                    "Y": 232
+                },
+                "inversionFlag": false,
+                "gray": 243.66666666666666,
+                "lightness": 95.49019607843137
+            },
+            {
+                "id": "1374x338",
+                "position": {
+                    "x": 1374,
+                    "Y": 338
+                },
+                "inversionFlag": false,
+                "gray": 244,
+                "lightness": 95.68627450980391
+            },
+            {
+                "id": "972x284",
+                "position": {
+                    "x": 972,
+                    "Y": 284
+                },
+                "inversionFlag": false,
+                "gray": 244.33333333333334,
+                "lightness": 95.68627450980391
+            },
+            {
+                "id": "1426x366",
+                "position": {
+                    "x": 1426,
+                    "Y": 366
+                },
+                "inversionFlag": false,
+                "gray": 234,
+                "lightness": 91.9607843137255
+            },
+            {
+                "id": "673x438",
+                "position": {
+                    "x": 673,
+                    "Y": 438
+                },
+                "inversionFlag": false,
+                "gray": 244.33333333333334,
+                "lightness": 95.68627450980391
+            },
+            {
+                "id": "620x466",
+                "position": {
+                    "x": 620,
+                    "Y": 466
+                },
+                "inversionFlag": false,
+                "gray": 244.33333333333334,
+                "lightness": 95.88235294117646
+            },
+            {
+                "id": "1022x261",
+                "position": {
+                    "x": 1022,
+                    "Y": 261
+                },
+                "inversionFlag": false,
+                "gray": 244.33333333333334,
+                "lightness": 95.88235294117646
+            }
+        ]
+    },
+    "sadida_manga1": {
+        "restPosition": {
+            "x": 1035,
+            "Y": 522
+        },
+        "resources": [
+            {
+                "id": "607x441",
+                "position": {
+                    "x": 607,
+                    "Y": 441
+                },
+                "inversionFlag": false,
+                "gray": 196,
+                "lightness": 76.47058823529412
+            },
+            {
+                "id": "660x414",
+                "position": {
+                    "x": 660,
+                    "Y": 414
+                },
+                "inversionFlag": false,
+                "gray": 197.33333333333334,
+                "lightness": 76.66666666666666
+            },
+            {
+                "id": "1065x200",
+                "position": {
+                    "x": 1065,
+                    "Y": 200
+                },
+                "inversionFlag": false,
+                "gray": 142,
+                "lightness": 55.88235294117647
+            },
+            {
+                "id": "1264x263",
+                "position": {
+                    "x": 1264,
+                    "Y": 263
+                },
+                "inversionFlag": false,
+                "gray": 198.33333333333334,
+                "lightness": 77.25490196078431
+            }
+        ]
+    },
+    "sidimote_argent": {
+        "restPosition": {
+            "x": 0,
+            "Y": 0
+        },
+        "resources": [
+            {
+                "id": "1564x467",
+                "position": {
+                    "x": 1564,
+                    "Y": 467
+                },
+                "inversionFlag": false,
+                "gray": 220.66666666666666,
+                "lightness": 86.47058823529412
+            },
+            {
+                "id": "1513x440",
+                "position": {
+                    "x": 1513,
+                    "Y": 440
+                },
+                "inversionFlag": false,
+                "gray": 214,
+                "lightness": 83.92156862745098
+            },
+            {
+                "id": "1416x391",
+                "position": {
+                    "x": 1416,
+                    "Y": 391
+                },
+                "inversionFlag": false,
+                "gray": 212,
+                "lightness": 83.13725490196077
+            },
+            {
+                "id": "1365x363",
+                "position": {
+                    "x": 1365,
+                    "Y": 363
+                },
+                "inversionFlag": false,
+                "gray": 231,
+                "lightness": 90.58823529411765
+            },
+            {
+                "id": "1262x311",
+                "position": {
+                    "x": 1262,
+                    "Y": 311
+                },
+                "inversionFlag": false,
+                "gray": 215.33333333333334,
+                "lightness": 84.50980392156863
+            },
+            {
+                "id": "960x161",
+                "position": {
+                    "x": 960,
+                    "Y": 161
+                },
+                "inversionFlag": false,
+                "gray": 227.33333333333334,
+                "lightness": 89.21568627450979
+            },
+            {
+                "id": "909x133",
+                "position": {
+                    "x": 909,
+                    "Y": 133
+                },
+                "inversionFlag": false,
+                "gray": 215,
+                "lightness": 84.31372549019608
+            },
+            {
+                "id": "860x108",
+                "position": {
+                    "x": 860,
+                    "Y": 108
+                },
+                "inversionFlag": false,
+                "gray": 227,
+                "lightness": 89.01960784313725
+            },
+            {
+                "id": "758x55",
+                "position": {
+                    "x": 758,
+                    "Y": 55
+                },
+                "inversionFlag": false,
+                "gray": 214,
+                "lightness": 83.92156862745098
+            },
+            {
+                "id": "707x58",
+                "position": {
+                    "x": 707,
+                    "Y": 58
+                },
+                "inversionFlag": false,
+                "gray": 201.66666666666666,
+                "lightness": 79.01960784313725
+            }
+        ]
+    },
+    "sidimote_bauxite": {
+        "restPosition": {
+            "x": 0,
+            "Y": 0
+        },
+        "resources": [
+            {
+                "id": "709x130",
+                "position": {
+                    "x": 709,
+                    "Y": 130
+                },
+                "inversionFlag": false,
+                "gray": 238.66666666666666,
+                "lightness": 94.50980392156862
+            },
+            {
+                "id": "1029x208",
+                "position": {
+                    "x": 1029,
+                    "Y": 208
+                },
+                "inversionFlag": false,
+                "gray": 224.66666666666666,
+                "lightness": 88.62745098039215
+            },
+            {
+                "id": "1128x156",
+                "position": {
+                    "x": 1128,
+                    "Y": 156
+                },
+                "inversionFlag": false,
+                "gray": 241,
+                "lightness": 95.29411764705881
+            },
+            {
+                "id": "1229x101",
+                "position": {
+                    "x": 1229,
+                    "Y": 101
+                },
+                "inversionFlag": false,
+                "gray": 241.33333333333334,
+                "lightness": 95.29411764705881
+            },
+            {
+                "id": "556x53",
+                "position": {
+                    "x": 556,
+                    "Y": 53
+                },
+                "inversionFlag": false,
+                "gray": 241,
+                "lightness": 95.29411764705881
+            },
+            {
+                "id": "1511x541",
+                "position": {
+                    "x": 1511,
+                    "Y": 541
+                },
+                "inversionFlag": false,
+                "gray": 241,
+                "lightness": 95.29411764705881
+            },
+            {
+                "id": "1614x591",
+                "position": {
+                    "x": 1614,
+                    "Y": 591
+                },
+                "inversionFlag": false,
+                "gray": 240.66666666666666,
+                "lightness": 95.29411764705881
+            },
+            {
+                "id": "1332x53",
+                "position": {
+                    "x": 1332,
+                    "Y": 53
+                },
+                "inversionFlag": false,
+                "gray": 233,
+                "lightness": 91.1764705882353
+            },
+            {
+                "id": "1076x182",
+                "position": {
+                    "x": 1076,
+                    "Y": 182
+                },
+                "inversionFlag": false,
+                "gray": 241,
+                "lightness": 95.29411764705881
+            },
+            {
+                "id": "1278x77",
+                "position": {
+                    "x": 1278,
+                    "Y": 77
+                },
+                "inversionFlag": false,
+                "gray": 241.33333333333334,
+                "lightness": 95.29411764705881
+            },
+            {
+                "id": "658x105",
+                "position": {
+                    "x": 658,
+                    "Y": 105
+                },
+                "inversionFlag": false,
+                "gray": 240.66666666666666,
+                "lightness": 95.29411764705881
+            },
+            {
+                "id": "1411x491",
+                "position": {
+                    "x": 1411,
+                    "Y": 491
+                },
+                "inversionFlag": false,
+                "gray": 234.66666666666666,
+                "lightness": 92.74509803921569
+            },
+            {
+                "id": "927x210",
+                "position": {
+                    "x": 927,
+                    "Y": 210
+                },
+                "inversionFlag": false,
+                "gray": 207.66666666666666,
+                "lightness": 82.74509803921568
+            },
+            {
+                "id": "1178x133",
+                "position": {
+                    "x": 1178,
+                    "Y": 133
+                },
+                "inversionFlag": false,
+                "gray": 208,
+                "lightness": 81.17647058823529
+            },
+            {
+                "id": "1610x590",
+                "position": {
+                    "x": 1610,
+                    "Y": 590
+                },
+                "inversionFlag": false,
+                "gray": 232.33333333333334,
+                "lightness": 92.3529411764706
+            }
+        ]
+    },
+    "sidimote_bronze": {
+        "resources": [
+            {
+                "id": "456x465",
+                "position": {
+                    "x": 456,
+                    "Y": 465
+                },
+                "inversionFlag": false,
+                "gray": 118.667,
+                "lightness": 47.451
+            },
+            {
+                "id": "1374x440",
+                "position": {
+                    "x": 1374,
+                    "Y": 440
+                },
+                "inversionFlag": false,
+                "gray": 120.667,
+                "lightness": 48.431
+            },
+            {
+                "id": "355x516",
+                "position": {
+                    "x": 355,
+                    "Y": 516
+                },
+                "inversionFlag": false,
+                "gray": 117.667,
+                "lightness": 47.059
+            },
+            {
+                "id": "407x490",
+                "position": {
+                    "x": 407,
+                    "Y": 490
+                },
+                "inversionFlag": false,
+                "gray": 123.667,
+                "lightness": 49.608
+            },
+            {
+                "id": "609x388",
+                "position": {
+                    "x": 609,
+                    "Y": 388
+                },
+                "inversionFlag": false,
+                "gray": 123,
+                "lightness": 49.411764705882355
+            },
+            {
+                "id": "1579x542",
+                "position": {
+                    "x": 1579,
+                    "Y": 542
+                },
+                "inversionFlag": false,
+                "gray": 122,
+                "lightness": 48.627450980392155
+            },
+            {
+                "id": "624x52",
+                "position": {
+                    "x": 624,
+                    "Y": 52
+                },
+                "inversionFlag": false,
+                "gray": 145.333,
+                "lightness": 58.627
+            },
+            {
+                "id": "562x414",
+                "position": {
+                    "x": 562,
+                    "Y": 414
+                },
+                "inversionFlag": false,
+                "gray": 137,
+                "lightness": 55.098
+            },
+            {
+                "id": "512x442",
+                "position": {
+                    "x": 512,
+                    "Y": 442
+                },
+                "inversionFlag": false,
+                "gray": 104,
+                "lightness": 41.961
+            },
+            {
+                "id": "663x365",
+                "position": {
+                    "x": 663,
+                    "Y": 365
+                },
+                "inversionFlag": false,
+                "gray": 104.667,
+                "lightness": 42.157
+            },
+            {
+                "id": "1327x413",
+                "position": {
+                    "x": 1327,
+                    "Y": 413
+                },
+                "inversionFlag": false,
+                "gray": 124.667,
+                "lightness": 49.804
+            },
+            {
+                "id": "1481x489",
+                "position": {
+                    "x": 1481,
+                    "Y": 489
+                },
+                "inversionFlag": false,
+                "gray": 111.66666666666667,
+                "lightness": 44.70588235294118
+            },
+            {
+                "id": "774x131",
+                "position": {
+                    "x": 774,
+                    "Y": 131
+                },
+                "inversionFlag": false,
+                "gray": 117,
+                "lightness": 46.863
+            },
+            {
+                "id": "822x156",
+                "position": {
+                    "x": 822,
+                    "Y": 156
+                },
+                "inversionFlag": false,
+                "gray": 135,
+                "lightness": 54.118
+            },
+            {
+                "id": "1413x386",
+                "position": {
+                    "x": 1413,
+                    "Y": 386
+                },
+                "inversionFlag": false,
+                "gray": 164.33333333333334,
+                "lightness": 65.09803921568627
+            }
+        ]
+    },
+    "sidimote_etain": {
+        "restPosition": {
+            "x": 0,
+            "Y": 0
+        },
+        "resources": [
+            {
+                "id": "862x106",
+                "position": {
+                    "x": 862,
+                    "Y": 106
+                },
+                "inversionFlag": false,
+                "gray": 136.33333333333334,
+                "lightness": 53.72549019607843
+            },
+            {
+                "id": "1569x467",
+                "position": {
+                    "x": 1569,
+                    "Y": 467
+                },
+                "inversionFlag": false,
+                "gray": 107.33333333333333,
+                "lightness": 42.35294117647059
+            },
+            {
+                "id": "1266x314",
+                "position": {
+                    "x": 1266,
+                    "Y": 314
+                },
+                "inversionFlag": false,
+                "gray": 126,
+                "lightness": 49.41176470588235
+            },
+            {
+                "id": "810x78",
+                "position": {
+                    "x": 810,
+                    "Y": 78
+                },
+                "inversionFlag": false,
+                "gray": 155.66666666666666,
+                "lightness": 61.568627450980394
+            },
+            {
+                "id": "1111x234",
+                "position": {
+                    "x": 1111,
+                    "Y": 234
+                },
+                "inversionFlag": false,
+                "gray": 130.33333333333334,
+                "lightness": 51.96078431372548
+            },
+            {
+                "id": "765x57",
+                "position": {
+                    "x": 765,
+                    "Y": 57
+                },
+                "inversionFlag": false,
+                "gray": 64.66666666666667,
+                "lightness": 25.49019607843137
+            },
+            {
+                "id": "714x30",
+                "position": {
+                    "x": 714,
+                    "Y": 30
+                },
+                "inversionFlag": false,
+                "gray": 112.66666666666667,
+                "lightness": 44.509803921568626
+            },
+            {
+                "id": "1670x518",
+                "position": {
+                    "x": 1670,
+                    "Y": 518
+                },
+                "inversionFlag": false,
+                "gray": 104.66666666666667,
+                "lightness": 41.17647058823529
+            },
+            {
+                "id": "1368x364",
+                "position": {
+                    "x": 1368,
+                    "Y": 364
+                },
+                "inversionFlag": false,
+                "gray": 109.33333333333333,
+                "lightness": 42.94117647058824
+            },
+            {
+                "id": "911x130",
+                "position": {
+                    "x": 911,
+                    "Y": 130
+                },
+                "inversionFlag": false,
+                "gray": 146.33333333333334,
+                "lightness": 57.843137254901954
+            },
+            {
+                "id": "1216x287",
+                "position": {
+                    "x": 1216,
+                    "Y": 287
+                },
+                "inversionFlag": false,
+                "gray": 122.33333333333333,
+                "lightness": 48.23529411764706
+            },
+            {
+                "id": "1013x182",
+                "position": {
+                    "x": 1013,
+                    "Y": 182
+                },
+                "inversionFlag": false,
+                "gray": 152.66666666666666,
+                "lightness": 60.392156862745104
+            },
+            {
+                "id": "1316x338",
+                "position": {
+                    "x": 1316,
+                    "Y": 338
+                },
+                "inversionFlag": false,
+                "gray": 131.66666666666666,
+                "lightness": 52.15686274509803
+            },
+            {
+                "id": "1617x490",
+                "position": {
+                    "x": 1617,
+                    "Y": 490
+                },
+                "inversionFlag": false,
+                "gray": 143,
+                "lightness": 56.470588235294116
+            },
+            {
+                "id": "811x79",
+                "position": {
+                    "x": 811,
+                    "Y": 79
+                },
+                "inversionFlag": false,
+                "gray": 157,
+                "lightness": 62.15686274509804
+            }
+        ]
+    },
+    "sidimote_kobalte": {
+        "resources": [
+            {
+                "id": "1023x209",
+                "position": {
+                    "x": 1023,
+                    "Y": 209
+                },
+                "inversionFlag": false,
+                "gray": 244.333,
+                "lightness": 95.882
+            },
+            {
+                "id": "1579x492",
+                "position": {
+                    "x": 1579,
+                    "Y": 492
+                },
+                "inversionFlag": false,
+                "gray": 244,
+                "lightness": 95.686
+            },
+            {
+                "id": "1126x263",
+                "position": {
+                    "x": 1126,
+                    "Y": 263
+                },
+                "inversionFlag": false,
+                "gray": 218.667,
+                "lightness": 86.275
+            },
+            {
+                "id": "973x182",
+                "position": {
+                    "x": 973,
+                    "Y": 182
+                },
+                "inversionFlag": false,
+                "gray": 244,
+                "lightness": 95.686
+            },
+            {
+                "id": "1376x387",
+                "position": {
+                    "x": 1376,
+                    "Y": 387
+                },
+                "inversionFlag": false,
+                "gray": 244,
+                "lightness": 95.686
+            },
+            {
+                "id": "775x81",
+                "position": {
+                    "x": 775,
+                    "Y": 81
+                },
+                "inversionFlag": false,
+                "gray": 243.333,
+                "lightness": 95.294
+            },
+            {
+                "id": "923x159",
+                "position": {
+                    "x": 923,
+                    "Y": 159
+                },
+                "inversionFlag": false,
+                "gray": 244,
+                "lightness": 95.686
+            },
+            {
+                "id": "1478x438",
+                "position": {
+                    "x": 1478,
+                    "Y": 438
+                },
+                "inversionFlag": false,
+                "gray": 244.333,
+                "lightness": 95.686
+            },
+            {
+                "id": "1624x516",
+                "position": {
+                    "x": 1624,
+                    "Y": 516
+                },
+                "inversionFlag": false,
+                "gray": 243.667,
+                "lightness": 95.49
+            },
+            {
+                "id": "723x51",
+                "position": {
+                    "x": 723,
+                    "Y": 51
+                },
+                "inversionFlag": false,
+                "gray": 244.667,
+                "lightness": 95.882
+            },
+            {
+                "id": "1679x544",
+                "position": {
+                    "x": 1679,
+                    "Y": 544
+                },
+                "inversionFlag": false,
+                "gray": 244,
+                "lightness": 95.686
+            },
+            {
+                "id": "1175x286",
+                "position": {
+                    "x": 1175,
+                    "Y": 286
+                },
+                "inversionFlag": false,
+                "gray": 244,
+                "lightness": 95.686
+            }
+        ]
+    }
+}

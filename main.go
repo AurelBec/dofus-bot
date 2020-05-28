@@ -20,13 +20,12 @@ import (
 
 var (
 	restPosition    models.Pos
-	resources       []models.Resource
+	resources       []*models.Resource
 	sessionModified bool
 	mutex           sync.Mutex
 
 	opts struct {
 		Debug  bool `short:"d" long:"debug" description:"Run in debug mode"`
-		Invert bool `short:"i" long:"invert" description:"Invert resource selection"`
 		Wait   bool `short:"w" long:"wait" description:"Simulate short reaction time"`
 		NoRest bool `short:"r" long:"no-rest" description:"Disable rest"`
 	}
@@ -44,9 +43,6 @@ func main() {
 	}
 
 	logrus.Info("Starting bot, press '+' to add resource, press 'END' to quit...")
-	if opts.Invert {
-		logrus.Warn("Running in inverted mode")
-	}
 
 	resources, restPosition = session.Select()
 
@@ -54,6 +50,9 @@ func main() {
 	if opts.NoRest {
 		restPosition = models.Pos{}
 	}
+
+	// focus window
+	robotgo.MoveClick(150, 150, "left")
 
 	wg := new(sync.WaitGroup)
 	ctx, cancel := context.WithCancel(context.Background())
@@ -69,9 +68,9 @@ func main() {
 	wg.Wait()
 
 	// save session
-	if sessionModified {
-		session.Save(&restPosition, resources)
-	}
+	// if sessionModified {
+	session.Save(&restPosition, resources)
+	// }
 
 	logrus.Info("see you soon!")
 }
@@ -125,7 +124,7 @@ func addResource() {
 	defer mutex.Unlock()
 
 	sessionModified = true
-	resources = append(resources, models.NewResourceUnderMouse(opts.Invert))
+	resources = append(resources, models.NewResourceUnderMouse())
 }
 
 func resourceSupervision(ctx context.Context, wg *sync.WaitGroup) {
@@ -135,7 +134,7 @@ func resourceSupervision(ctx context.Context, wg *sync.WaitGroup) {
 
 	var collecting bool
 	var resting bool
-	var nextResource models.Resource
+	var nextResource *models.Resource
 
 	for {
 		select {
@@ -153,7 +152,7 @@ func resourceSupervision(ctx context.Context, wg *sync.WaitGroup) {
 				var lastPos models.Pos
 				if !justFinish && !restPosition.IsNull() {
 					lastPos = restPosition
-				} else {
+				} else if nextResource != nil {
 					lastPos = nextResource.Pos
 				}
 
@@ -177,14 +176,14 @@ func goRest() {
 	logrus.Info("going to rest position")
 	robotgo.MoveClick(restPosition.X, restPosition.Y, "left")
 	time.Sleep(time.Millisecond * 20)
-	robotgo.MoveMouse(400, 0)
+	robotgo.MoveMouse(150, 150)
 }
 
-func nearestRessource(lastPos models.Pos) (models.Resource, bool) {
+func nearestRessource(lastPos models.Pos) (*models.Resource, bool) {
 	mutex.Lock()
 	defer mutex.Unlock()
 
-	var nextClosestResource models.Resource
+	var nextClosestResource *models.Resource
 	var bestDistance int = math.MaxInt64
 
 	for _, resource := range resources {
@@ -205,5 +204,5 @@ func nearestRessource(lastPos models.Pos) (models.Resource, bool) {
 		}
 	}
 
-	return nextClosestResource, nextClosestResource.ID != ""
+	return nextClosestResource, nextClosestResource != nil
 }
