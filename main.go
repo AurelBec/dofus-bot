@@ -28,6 +28,8 @@ var (
 		Debug  bool `short:"d" long:"debug" description:"Run in debug mode"`
 		Wait   bool `short:"w" long:"wait" description:"Simulate short reaction time"`
 		NoRest bool `short:"r" long:"no-rest" description:"Disable rest"`
+
+		WatchOnly bool `long:"watch-only" descritpion:"don't mine, only notify for resources updates"`
 	}
 )
 
@@ -44,7 +46,9 @@ func main() {
 
 	logrus.Info("Starting bot, press '+' to add resource, press 'END' to quit...")
 
-	resources, restPosition = session.Select()
+	if !opts.WatchOnly {
+		resources, restPosition = session.Select()
+	}
 
 	// disable rest position if asked
 	if opts.NoRest {
@@ -59,11 +63,16 @@ func main() {
 
 	// start listening for resource monitoring
 	wg.Add(1)
-	go listenResourceRegistration(cancel, wg)
+	go listenResourceRegistration(cancel, ctx, wg)
 
 	// start resource supervision
-	wg.Add(1)
-	go resourceSupervision(ctx, wg)
+	if !opts.WatchOnly {
+		wg.Add(1)
+		go resourceSupervision(ctx, wg)
+	}
+
+	// manga :
+	// go models.Resource{ID: "manga_1054x232", Pos: models.Pos{1054, 232}}.Watch(ctx)
 
 	wg.Wait()
 
@@ -75,7 +84,7 @@ func main() {
 	logrus.Info("see you soon!")
 }
 
-func listenResourceRegistration(cancel context.CancelFunc, wg *sync.WaitGroup) {
+func listenResourceRegistration(cancel context.CancelFunc, ctx context.Context, wg *sync.WaitGroup) {
 	s := robotgo.Start()
 	defer robotgo.End()
 	defer cancel()
@@ -89,10 +98,13 @@ func listenResourceRegistration(cancel context.CancelFunc, wg *sync.WaitGroup) {
 			case 65367:
 				return
 
-			// +
+			// +, left FN
 			case 61, 65323:
-				addResource()
-
+				if !opts.WatchOnly {
+					addResource()
+				} else {
+					go models.NewResourceUnderMouse().Watch(ctx)
+				}
 			default:
 				logrus.Debugf("event: %s", strings.SplitAfter(ev.String(), "Event: ")[1])
 			}
@@ -116,7 +128,7 @@ func addRestPosition() {
 
 	x, y := robotgo.GetMousePos()
 	restPosition = models.Pos{X: x, Y: y}
-	logrus.Infof("set rest position at [%vx%v]", x, y)
+	logrus.Infof("set rest position at %s", restPosition)
 }
 
 func addResource() {
@@ -124,7 +136,9 @@ func addResource() {
 	defer mutex.Unlock()
 
 	sessionModified = true
-	resources = append(resources, models.NewResourceUnderMouse())
+	newResource := models.NewResourceUnderMouse()
+	logrus.Infof("register resource %s", newResource)
+	resources = append(resources, newResource)
 }
 
 func resourceSupervision(ctx context.Context, wg *sync.WaitGroup) {
@@ -143,7 +157,7 @@ func resourceSupervision(ctx context.Context, wg *sync.WaitGroup) {
 
 			if collecting {
 				if collecting = nextResource.IsActive(); !collecting {
-					logrus.Infof("[%s] collected", nextResource)
+					logrus.Infof("%s collected", nextResource)
 					justFinish = true
 				}
 			}
@@ -157,7 +171,7 @@ func resourceSupervision(ctx context.Context, wg *sync.WaitGroup) {
 				}
 
 				if nextResource, collecting = nearestRessource(lastPos); collecting {
-					logrus.Infof("collecting [%s]...", nextResource)
+					logrus.Infof("collecting %s...", nextResource)
 					resting = false
 					go nextResource.Collect(opts.Wait && !justFinish)
 				} else if !resting && !restPosition.IsNull() {

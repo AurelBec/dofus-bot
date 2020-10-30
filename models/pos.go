@@ -1,10 +1,17 @@
 package models
 
-import "math"
+import (
+	"fmt"
+	"math"
+)
 
 type Pos struct {
 	X int `json:"x"`
 	Y int `json:"Y"`
+}
+
+func (p Pos) String() string {
+	return fmt.Sprintf("{%v, %v}", p.X, p.Y)
 }
 
 func (p Pos) IsNull() bool {

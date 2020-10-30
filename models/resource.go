@@ -1,6 +1,7 @@
 package models
 
 import (
+	"context"
 	"fmt"
 	"math"
 	"math/rand"
@@ -25,7 +26,7 @@ type Resource struct {
 }
 
 func (r Resource) String() string {
-	return r.ID
+	return fmt.Sprintf("[%s]", r.ID)
 }
 
 func getPixelColor(x, y int) color.Color {
@@ -41,7 +42,6 @@ func NewResourceUnderMouse() *Resource {
 	time.Sleep(time.Millisecond * 100)
 
 	id := fmt.Sprintf("%vx%v", x, y)
-	logrus.Infof("register resource [%s]", id)
 
 	return &Resource{
 		ID:    id,
@@ -102,4 +102,24 @@ func (r Resource) Collect(react bool) {
 	robotgo.KeyToggle("lshift", "up")
 	time.Sleep(time.Millisecond * 20)
 	robotgo.MoveMouse(150, 150)
+}
+
+func (r Resource) Watch(ctx context.Context) {
+	ticker := time.NewTicker(time.Millisecond * 500)
+	defer ticker.Stop()
+
+	color := r.Color
+	logrus.Infof("start watching resource %s (%+v)...", r, color)
+
+	for {
+		select {
+		case <-ticker.C:
+			if colorXY := getPixelColor(r.Pos.X, r.Pos.Y); color.DistanceLab(colorXY) > .05 {
+				color = colorXY
+				logrus.Infof("resource %s updates to %+v", r, color)
+			}
+		case <-ctx.Done():
+			return
+		}
+	}
 }
